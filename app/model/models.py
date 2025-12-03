@@ -11,13 +11,14 @@ class AuthRole(str, Enum):
     user = "user"
 
 
-class AuthBase(SQLModel):
-    id: uuid.UUID = Field(primary_key=True, default=uuid.uuid4)
-    created_at: datetime = Field(default_factory=datetime.now)
-    updated_at: datetime = Field(default_factory=datetime.now)
-
-
-class Auth(AuthBase, table=True):
+class AuthCreate(SQLModel):
+    full_name: str = Field(max_length=100)
     email: EmailStr = Field(unique=True)
     password: str = Field(min_length=6, max_length=32)
     role: AuthRole = Field(default=AuthRole.user)
+
+
+class Auth(AuthCreate, table=True):
+    id: uuid.UUID = Field(primary_key=True, default_factory=uuid.uuid4)
+    created_at: datetime = Field(default_factory=datetime.now)
+    updated_at: datetime = Field(default_factory=datetime.now)
