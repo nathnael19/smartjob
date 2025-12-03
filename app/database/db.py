@@ -5,4 +5,6 @@ engine = create_engine(settings.postgres_url, echo=True)
 
 
 def create_db_and_tables():
+    from app.model.models import Auth
+
     SQLModel.metadata.create_all(engine)
